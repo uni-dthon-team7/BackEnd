@@ -27,7 +27,7 @@ public class CommentService {
     Recipe recipe = recipeRepository.findById(recipeId)
         .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
 
-    return commentRepository.findByRecipe(recipe);
+    return commentRepository.findAllByRecipe(recipe);
   }
 
   @Transactional
