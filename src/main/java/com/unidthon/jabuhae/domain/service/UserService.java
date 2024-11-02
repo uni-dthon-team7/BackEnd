@@ -1,5 +1,8 @@
 package com.unidthon.jabuhae.domain.service;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.round;
+
 import com.unidthon.jabuhae.domain.entity.User;
 import com.unidthon.jabuhae.domain.repository.UserRepository;
 import com.unidthon.jabuhae.global.exception.CustomException;
@@ -16,6 +19,15 @@ public class UserService {
 
     return userRepository.findById(userId)
         .orElseThrow(() -> new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+
+  }
+
+  public Long expToLevel(Long exp) {
+    Long level = 1L;
+    while( exp > round(pow(1.1, level))*level*100 ) {
+      level++;
+    }
+    return level;
   }
 
   @Transactional
