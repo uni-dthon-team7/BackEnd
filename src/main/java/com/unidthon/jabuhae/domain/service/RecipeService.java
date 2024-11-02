@@ -30,8 +30,14 @@ public class RecipeService {
     // 레시피 추가
     public Long addRecipe(RecipeCreateRequestDto requestDto) {
         User creator = userService.getUserById(requestDto.userId());
-        Recipe parentRecipe = findRecipeById(requestDto.parentRecipeId());
-        Recipe newRecipe = requestDto.toEntity(creator, parentRecipe);
+        Long parentRecipeId = requestDto.parentRecipeId();
+        Recipe newRecipe;
+        if (parentRecipeId != null) {
+            Recipe parentRecipe = findRecipeById(parentRecipeId);
+            newRecipe = requestDto.toEntity(creator, parentRecipe);
+        } else {
+            newRecipe = requestDto.toEntity(creator);
+        }
         Recipe savedRecipe = recipeRepository.save(newRecipe);
         return savedRecipe.getRecipeId();
     }
