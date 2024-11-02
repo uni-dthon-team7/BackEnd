@@ -2,6 +2,7 @@ package com.unidthon.jabuhae.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -10,6 +11,9 @@ public class RecipeItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipeItemId;
+
+    @ColumnDefault("true")
+    private boolean isPrimary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id", updatable = false)
@@ -20,8 +24,9 @@ public class RecipeItem {
     private Item item;
 
     @Builder
-    public RecipeItem(Recipe recipe, Item item) {
+    public RecipeItem(Recipe recipe, Item item, boolean isPrimary) {
         this.recipe = recipe;
         this.item = item;
+        this.isPrimary = isPrimary;
     }
 }
