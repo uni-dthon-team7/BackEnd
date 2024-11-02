@@ -30,7 +30,8 @@ public class UserController {
   @GetMapping("/{userId}")
   public ResponseEntity<?> getUser( @PathVariable Long userId) {
     User user = userService.getUserById(userId);
-    return ResponseEntity.ok(UserConverter.toResultDTO(user));
+    Long level = userService.expToLevel(user.getExp());
+    return ResponseEntity.ok(UserConverter.toResultDTO(user, level));
   }
 
   @Operation(summary = "식사하기")
