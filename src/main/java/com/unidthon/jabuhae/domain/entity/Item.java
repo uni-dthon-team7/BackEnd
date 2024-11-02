@@ -22,11 +22,12 @@ public class Item {
     private String name;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CookingItem> cookingItems = new ArrayList<>();
+    private List<RecipeItem> recipeItems;
 
     @Builder
     public Item(ItemType itemType, String name) {
         this.itemType = itemType;
         this.name = name;
+        this.recipeItems = new ArrayList<>();
     }
 }

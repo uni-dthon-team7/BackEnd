@@ -6,23 +6,22 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class CookingItem {
+public class RecipeItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
-    private Long cookingItemId;
+    private Long recipeItemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cooking_id", nullable = false, updatable = false)
-    private Cooking cooking;
+    @JoinColumn(name = "recipe_id", updatable = false)
+    private Recipe recipe;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", nullable = false, updatable = false)
+    @JoinColumn(name = "item_id", updatable = false)
     private Item item;
 
     @Builder
-    public CookingItem(Cooking cooking, Item item) {
-        this.cooking = cooking;
+    public RecipeItem(Recipe recipe, Item item) {
+        this.recipe = recipe;
         this.item = item;
     }
 }

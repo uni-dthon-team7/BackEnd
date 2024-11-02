@@ -3,8 +3,6 @@ package com.unidthon.jabuhae.domain.entity;
 import com.unidthon.jabuhae.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,8 +15,6 @@ public class Cooking extends BaseTimeEntity {
 
     private String memo;
 
-    private boolean isFavorite;
-
     private int cookingTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,16 +25,9 @@ public class Cooking extends BaseTimeEntity {
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 
-    @OneToMany(mappedBy = "cooking", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cooking", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CookingItem> cookingItems = new ArrayList<>();
-
     @Builder
-    public Cooking(String memo, Boolean isFavorite, int cookingTime, User user, Recipe recipe) {
+    public Cooking(String memo, int cookingTime, User user, Recipe recipe) {
         this.memo = memo;
-        this.isFavorite = isFavorite;
         this.cookingTime = cookingTime;
         this.user = user;
         this.recipe = recipe;

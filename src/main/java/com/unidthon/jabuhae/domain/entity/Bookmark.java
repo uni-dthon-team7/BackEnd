@@ -1,6 +1,5 @@
 package com.unidthon.jabuhae.domain.entity;
 
-
 import com.unidthon.jabuhae.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,14 +7,10 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment extends BaseTimeEntity {
+public class Bookmark extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
-    private Long commentId;
-
-    @Column(nullable = false)
-    private String content;
+    private Long bookmarkId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", updatable = false)
@@ -26,8 +21,7 @@ public class Comment extends BaseTimeEntity {
     private Recipe recipe;
 
     @Builder
-    public Comment(String content, User user, Recipe recipe) {
-        this.content = content;
+    public Bookmark(User user, Recipe recipe) {
         this.user = user;
         this.recipe = recipe;
     }

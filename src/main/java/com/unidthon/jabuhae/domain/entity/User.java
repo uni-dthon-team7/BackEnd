@@ -36,10 +36,10 @@ public class User extends BaseTimeEntity {
     private int hungerRange;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Heart> hearts = new ArrayList<>();
+    private List<Bookmark> bookmarks;
 
     @Builder
     public User(String name, String email, String password, UserStatus userStatus) {
@@ -49,5 +49,7 @@ public class User extends BaseTimeEntity {
         this.userStatus = userStatus;
         this.exp = 0L;
         this.hungerRange = 50;
+        this.comments = new ArrayList<>();
+        this.bookmarks = new ArrayList<>();
     }
 }

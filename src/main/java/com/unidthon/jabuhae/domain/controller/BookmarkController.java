@@ -1,4 +1,4 @@
 package com.unidthon.jabuhae.domain.controller;
 
-public class CookingItemController {
+public class BookmarkController {
 }
