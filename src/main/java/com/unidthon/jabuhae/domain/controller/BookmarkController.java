@@ -31,7 +31,7 @@ public class BookmarkController {
 
 
     @Operation(summary = "유저의 북마크들 조회", description = "유저의 북마크를 조회합니다")
-    @PutMapping("/users/{userId}/bookmarks")
+    @GetMapping("/users/{userId}/bookmarks")
     public ResponseEntity<?> changeBookmark(@PathVariable final Long userId){
         return ResponseEntity.ok(bookmarkService.getUserBookmarks(userId));
     }
