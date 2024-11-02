@@ -14,6 +14,8 @@ public class UserResponseDto {
   @AllArgsConstructor
   public static class ResultDto {
     private Long UserId;
+    private Long level;
+    private Long nextExp;
     private String email;
     private String name;
     private int HungerRange;
