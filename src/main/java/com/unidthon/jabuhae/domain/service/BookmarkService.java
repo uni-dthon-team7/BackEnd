@@ -1,6 +1,7 @@
 package com.unidthon.jabuhae.domain.service;
 
-import com.unidthon.jabuhae.domain.dto.BookmarkRequestDto;
+import com.unidthon.jabuhae.domain.dto.request.BookmarkRequestDto;
+import com.unidthon.jabuhae.domain.dto.response.BookmarkRecipeUnitDto;
 import com.unidthon.jabuhae.domain.entity.Bookmark;
 import com.unidthon.jabuhae.domain.entity.Recipe;
 import com.unidthon.jabuhae.domain.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,5 +46,19 @@ public class BookmarkService {
             bookmarkRepository.deleteAll(bookmarks);
             return false;
         }
+    }
+
+    // 유저의 북마크 조회
+    public List<BookmarkRecipeUnitDto> getUserBookmarks(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+        List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+        List<BookmarkRecipeUnitDto> recipeDtos = bookmarks.stream()
+                .map(bookmark -> {
+                    Recipe recipe = bookmark.getRecipe(); // Assuming getRecipe() returns the Recipe object
+                    return BookmarkRecipeUnitDto.from(recipe);
+                })
+                .collect(Collectors.toList());
+        return recipeDtos;
     }
 }

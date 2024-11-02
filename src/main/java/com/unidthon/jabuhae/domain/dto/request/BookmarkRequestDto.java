@@ -1,4 +1,4 @@
-package com.unidthon.jabuhae.domain.dto;
+package com.unidthon.jabuhae.domain.dto.request;
 
 import com.unidthon.jabuhae.domain.entity.Bookmark;
 import com.unidthon.jabuhae.domain.entity.Recipe;
