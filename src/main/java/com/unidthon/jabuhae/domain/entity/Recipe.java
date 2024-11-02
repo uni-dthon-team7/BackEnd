@@ -34,7 +34,7 @@ public class Recipe extends BaseTimeEntity {
     private Recipe parentRecipe;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User creator;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
