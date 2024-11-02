@@ -5,6 +5,7 @@ import com.unidthon.jabuhae.domain.entity.Recipe;
 import com.unidthon.jabuhae.domain.entity.RecipeItem;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record RecipeInfoResponseDto (
         String recipeName,
@@ -12,16 +13,17 @@ public record RecipeInfoResponseDto (
         String imgPath,
         int avgCookingTime,
         int frequency,
-        List<RecipeItemUnitDto> ingredients,
+        List<RecipeItemUnitDto> primaryIngredients,
+        List<RecipeItemUnitDto> nonPrimaryIngredients,
         List<RecipeItemUnitDto> cookers
 
 ) {
     public static RecipeInfoResponseDto from(Recipe recipe,
                                              List<RecipeItem> ingredients,
                                              List<RecipeItem> cookers) {
-        List<RecipeItemUnitDto> ingredientDtos = ingredients.stream()
-                .map(RecipeItemUnitDto::from)  // Using RecipeItemUnitDto's from method
-                .toList();
+        List<RecipeItemUnitDto> primaryIngredientDtos = filterAndMapToDto(ingredients, true);
+        List<RecipeItemUnitDto> nonPrimaryIngredientDtos = filterAndMapToDto(ingredients, false);
+
 
         List<RecipeItemUnitDto> cookerDtos = cookers.stream()
                 .map(RecipeItemUnitDto::from)
@@ -33,8 +35,16 @@ public record RecipeInfoResponseDto (
                 recipe.getImgPath(),
                 recipe.getAvgCookingTime(),
                 recipe.getFrequency(),
-                ingredientDtos,
+                primaryIngredientDtos,
+                nonPrimaryIngredientDtos,
                 cookerDtos
         );
+    }
+
+    private static List<RecipeItemUnitDto> filterAndMapToDto(List<RecipeItem> recipeItems, boolean isPrimary) {
+        return recipeItems.stream()
+                .filter(item -> item.isPrimary() == isPrimary)
+                .map(RecipeItemUnitDto::from)
+                .toList();
     }
 }
