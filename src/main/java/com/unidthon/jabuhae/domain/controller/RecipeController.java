@@ -25,7 +25,13 @@ public class RecipeController {
 
     @Operation(summary = "단일 레시피 정보 조회", description = "레시피를 조회합니다.")
     @GetMapping("/{recipeId}")
-    public ResponseEntity<?> addRecipe(@PathVariable final Long recipeId){
+    public ResponseEntity<?> getRecipeInfo(@PathVariable final Long recipeId){
         return ResponseEntity.ok().body(recipeService.getRecipeInfo(recipeId));
+    }
+
+    @Operation(summary = "레시피 검색", description = "레시피를 검색합니다.")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchRecipe(@RequestParam final String q){
+        return ResponseEntity.ok().body(recipeService.searchRecipe(q));
     }
 }
