@@ -6,18 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserResponseDto {
+public class ItemResponseDto {
 
   @Builder
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class ResultDto {
-    private Long UserId;
-    private String email;
+    private Long itemId;
     private String name;
-    private int HungerRange;
-    private Long exp;
+    private String imgPath;
   }
 
 
