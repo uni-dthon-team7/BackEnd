@@ -4,6 +4,8 @@ package com.unidthon.jabuhae.domain.entity;
 import com.unidthon.jabuhae.domain.model.UserStatus;
 import com.unidthon.jabuhae.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +44,25 @@ public class User extends BaseTimeEntity {
     private List<Bookmark> bookmarks;
 
     @Builder
-    public User(String name, String email, String password, UserStatus userStatus) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.userStatus = userStatus;
+        this.userStatus = UserStatus.ACTIVE;
         this.exp = 0L;
         this.hungerRange = 50;
         this.comments = new ArrayList<>();
         this.bookmarks = new ArrayList<>();
+    }
+
+    public void updateExpAndHunger(Long exp, int hungerRange) {
+        this.exp += exp;
+        this.hungerRange += hungerRange;
+        if (this.hungerRange < 0) {
+            this.hungerRange = 0;
+        }
+        if (this.hungerRange > 100) {
+            this.hungerRange = 100;
+        }
     }
 }
