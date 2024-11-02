@@ -24,7 +24,7 @@ public class RecipeController {
     }
 
     @Operation(summary = "단일 레시피 정보 조회", description = "레시피를 조회합니다.")
-    @GetMapping("/recipes/{recipeId}")
+    @GetMapping("/{recipeId}")
     public ResponseEntity<?> addRecipe(@PathVariable final Long recipeId){
         return ResponseEntity.ok().body(recipeService.getRecipeInfo(recipeId));
     }
