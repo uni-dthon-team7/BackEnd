@@ -21,13 +21,16 @@ public class Item {
     @Column(nullable = false)
     private String name;
 
+    private String imgPath;
+
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeItem> recipeItems;
 
     @Builder
-    public Item(ItemType itemType, String name) {
+    public Item(ItemType itemType, String name, String imgPath) {
         this.itemType = itemType;
         this.name = name;
+        this.imgPath = imgPath;
         this.recipeItems = new ArrayList<>();
     }
 }
