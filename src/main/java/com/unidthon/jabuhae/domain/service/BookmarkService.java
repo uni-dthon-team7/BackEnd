@@ -23,18 +23,17 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class BookmarkService {
-    private final UserRepository userRepository;
-    private final RecipeRepository recipeRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final RecipeRepository recipeRepository;
+    private final UserService userService;
 
     // 북마크 상태 변경
     public boolean changeBookmark(BookmarkRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.userId())
-                .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+        User user = userService.getUserById(requestDto.userId());
         Recipe recipe = recipeRepository.findById(requestDto.recipeId())
                 .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
-
         List<Bookmark> bookmarks = bookmarkRepository.findAllByRecipeAndUser(recipe, user);
+
         if (bookmarks.isEmpty()) {
             Bookmark newBookmark = Bookmark.builder()
                     .user(user)
@@ -50,9 +49,9 @@ public class BookmarkService {
 
     // 유저의 북마크 조회
     public List<BookmarkRecipeUnitDto> getUserBookmarks(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
+        User user = userService.getUserById(userId);
         List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+
         List<BookmarkRecipeUnitDto> recipeDtos = bookmarks.stream()
                 .map(bookmark -> {
                     Recipe recipe = bookmark.getRecipe(); // Assuming getRecipe() returns the Recipe object
