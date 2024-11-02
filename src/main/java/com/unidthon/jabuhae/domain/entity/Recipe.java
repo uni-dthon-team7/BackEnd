@@ -26,7 +26,7 @@ public class Recipe extends BaseTimeEntity {
     @ColumnDefault("0")
     private int frequency;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeItem> recipeItems;
 
     @Builder
