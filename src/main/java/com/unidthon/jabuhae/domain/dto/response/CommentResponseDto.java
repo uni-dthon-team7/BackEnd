@@ -1,26 +1,20 @@
 package com.unidthon.jabuhae.domain.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.unidthon.jabuhae.domain.entity.Recipe;
+import com.unidthon.jabuhae.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class UserResponseDto {
-
+public class CommentResponseDto {
   @Builder
   @Getter
   @NoArgsConstructor
   @AllArgsConstructor
   public static class ResultDto {
-    private Long UserId;
-    private Long level;
-    private Long nextExp;
-    private String email;
-    private String name;
-    private int HungerRange;
-    private Long exp;
+    private Long commentId;
+    private String content;
+    private UserResponseDto.ResultDto user;
   }
-
-
 }
