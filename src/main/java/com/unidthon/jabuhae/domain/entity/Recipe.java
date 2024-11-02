@@ -23,6 +23,8 @@ public class Recipe extends BaseTimeEntity {
 
     private String cookingMethod;
 
+    private String imgPath;
+
     @ColumnDefault("0")
     private int frequency;
 
@@ -30,10 +32,11 @@ public class Recipe extends BaseTimeEntity {
     private List<RecipeItem> recipeItems;
 
     @Builder
-    public Recipe(String name, Integer avgCookingTime, String cookingMethod) {
+    public Recipe(String name, Integer avgCookingTime, String cookingMethod, String imgPath) {
         this.name = name;
         this.avgCookingTime = avgCookingTime;
         this.cookingMethod = cookingMethod;
+        this.imgPath = imgPath;
         this.frequency = 0;
         this.recipeItems = new ArrayList<>();
     }
