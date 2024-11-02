@@ -26,7 +26,6 @@ public class UserController {
 
   private final UserService userService;
 
-  @ApiResponses
   @Operation(summary = "유저 조회")
   @GetMapping("/{userId}")
   public ResponseEntity<?> getUser( @PathVariable Long userId) {
@@ -34,7 +33,6 @@ public class UserController {
     return ResponseEntity.ok(UserConverter.toResultDTO(user));
   }
 
-  @ApiResponses
   @Operation(summary = "식사하기")
   @PatchMapping("/{userId}/hunger")
   public ResponseEntity<?> updateUser (@PathVariable Long userId) {
@@ -42,7 +40,6 @@ public class UserController {
     return ResponseEntity.ok(UserConverter.toResultDTO(user));
   }
 
-  @ApiResponses
   @Operation(summary = "회원가입")
   @PostMapping("/signUp")
   public ResponseEntity<?> signUpUser (@RequestBody UserRequestDto.signUp requestDto) {

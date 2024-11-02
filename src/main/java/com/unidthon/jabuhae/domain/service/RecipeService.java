@@ -51,10 +51,24 @@ public class RecipeService {
         return RecipeInfoResponseDto.from(recipe, ingredients, cookers);
     }
 
-
     @Transactional(readOnly = true)
     public Recipe findRecipeById(Long recipeId) {
         return recipeRepository.findById(recipeId)
                 .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
     }
+
+    @Transactional(readOnly = true)
+    public List<RecipeInfoResponseDto> searchRecipe(String keyword) {
+        // Search for recipes that match the keyword
+        List<Recipe> recipes = recipeRepository.searchRecipesByKeyword(keyword);
+
+        // Map each Recipe to RecipeInfoResponseDto
+        return recipes.stream().map(recipe -> {
+            List<RecipeItem> ingredients = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.INGREDIENT);
+            List<RecipeItem> cookers = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.COOKER);
+
+            return RecipeInfoResponseDto.from(recipe, ingredients, cookers);
+        }).toList();
+    }
+
 }
