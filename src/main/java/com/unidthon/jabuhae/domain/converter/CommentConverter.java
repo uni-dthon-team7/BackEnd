@@ -16,7 +16,7 @@ public class CommentConverter {
     return CommentResponseDto.ResultDto.builder()
         .content(comment.getContent())
         .commentId(comment.getCommentId())
-        .user(comment.getUser())
+        .user( UserConverter.toResultDTO(comment.getUser()) )
         .build();
   }
 

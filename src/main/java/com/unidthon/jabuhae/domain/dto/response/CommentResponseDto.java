@@ -15,6 +15,6 @@ public class CommentResponseDto {
   public static class ResultDto {
     private Long commentId;
     private String content;
-    private User user;
+    private UserResponseDto.ResultDto user;
   }
 }
