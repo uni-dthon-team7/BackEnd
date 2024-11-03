@@ -14,21 +14,11 @@ public record RecipeInfoResponseDto (
         int avgCookingTime,
         int frequency,
         List<RecipeItemUnitDto> primaryIngredients,
-        List<RecipeItemUnitDto> nonPrimaryIngredients,
-        List<RecipeItemUnitDto> cookers
-
+        List<RecipeItemUnitDto> nonPrimaryIngredients
 ) {
     public static RecipeInfoResponseDto from(Recipe recipe,
-                                             List<RecipeItem> ingredients,
-                                             List<RecipeItem> cookers) {
-        List<RecipeItemUnitDto> primaryIngredientDtos = filterAndMapToDto(ingredients, true);
-        List<RecipeItemUnitDto> nonPrimaryIngredientDtos = filterAndMapToDto(ingredients, false);
-
-
-        List<RecipeItemUnitDto> cookerDtos = cookers.stream()
-                .map(RecipeItemUnitDto::from)
-                .toList();
-
+                                             List<RecipeItemUnitDto> primaryIngredientDtos,
+                                             List<RecipeItemUnitDto> nonPrimaryIngredientDtos) {
         return new RecipeInfoResponseDto(
                 recipe.getName(),
                 recipe.getCreator().getName(),
@@ -36,15 +26,7 @@ public record RecipeInfoResponseDto (
                 recipe.getAvgCookingTime(),
                 recipe.getFrequency(),
                 primaryIngredientDtos,
-                nonPrimaryIngredientDtos,
-                cookerDtos
+                nonPrimaryIngredientDtos
         );
-    }
-
-    private static List<RecipeItemUnitDto> filterAndMapToDto(List<RecipeItem> recipeItems, boolean isPrimary) {
-        return recipeItems.stream()
-                .filter(item -> item.isPrimary() == isPrimary)
-                .map(RecipeItemUnitDto::from)
-                .toList();
     }
 }

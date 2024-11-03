@@ -47,9 +47,10 @@ public class RecipeService {
     @Transactional(readOnly = true)
     public RecipeInfoResponseDto getRecipeInfo(Long recipeId) {
         Recipe recipe = findRecipeById(recipeId);
-        List<RecipeItem> ingredients = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.INGREDIENT);
-        List<RecipeItem> cookers = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.COOKER);
-        return RecipeInfoResponseDto.from(recipe, ingredients, cookers);
+        List<RecipeItem> recipeItems = recipeItemRepository.findAllByRecipe(recipe);
+        List<RecipeItemUnitDto> primaryIngredientDtos = filterAndMapToDto(recipeItems, true);
+        List<RecipeItemUnitDto> nonPrimaryIngredientDtos = filterAndMapToDto(recipeItems, false);
+        return RecipeInfoResponseDto.from(recipe, primaryIngredientDtos, nonPrimaryIngredientDtos);
     }
 
     @Transactional(readOnly = true)
@@ -58,18 +59,17 @@ public class RecipeService {
                 .orElseThrow(()->new CustomException(ErrorCode.RESOURCE_NOT_FOUND));
     }
 
+    // 레시피 검색
     @Transactional(readOnly = true)
     public List<RecipeInfoResponseDto> searchRecipe(String keyword) {
-        // Search for recipes that match the keyword
         List<Recipe> recipes = recipeRepository.searchRecipesByKeyword(keyword);
-
-        // Map each Recipe to RecipeInfoResponseDto
-        return recipes.stream().map(recipe -> {
-            List<RecipeItem> ingredients = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.INGREDIENT);
-            List<RecipeItem> cookers = recipeItemRepository.findAllByRecipeAndItem_ItemType(recipe, ItemType.COOKER);
-
-            return RecipeInfoResponseDto.from(recipe, ingredients, cookers);
-        }).toList();
+        return recipes.stream().map(recipe -> getRecipeInfo(recipe.getRecipeId())).toList();
     }
 
+    private List<RecipeItemUnitDto> filterAndMapToDto(List<RecipeItem> recipeItems, boolean isPrimary) {
+        return recipeItems.stream()
+                .filter(item -> item.isPrimary() == isPrimary)
+                .map(RecipeItemUnitDto::from)
+                .toList();
+    }
 }
