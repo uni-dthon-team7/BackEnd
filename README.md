@@ -26,9 +26,9 @@ https://www.youtube.com/watch?v=6cVmP_kI5GA&feature=youtu.be
 <img src="https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white">
 
 ## 7팀(칠성사이다) 팀원
+- BE&PM 이서현
+- BE&AI 문강민
+- BE 이해찬
 - FE 홍여원
 - FE 류나정
 - FE 엄혜린
-- BE+AI(+FE) 문강민
-- BE+PM 이서현
-- BE 이해찬
